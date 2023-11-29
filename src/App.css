@@ -23,7 +23,7 @@ body, html {
 }
 
 .sidebar {
-    width: 200px;
+    width: 150px;
     min-height: 100vh;
     padding-top: 180px;
     background-color: #1e5de1;
@@ -46,10 +46,10 @@ body, html {
     background-color: #EBF2FC;
     align-items: center;
     transition: transform 0.2s;
-    /* Removed flex-direction: row; */
+    text-decoration: none;
   }
   
-  .sidebar-item-upload {
+  .sidebar-item-settings {
     width: 90%;
     height: 40px;
     align-self: center;
@@ -62,12 +62,13 @@ body, html {
     transition: transform 0.2s;
     position: absolute;
     bottom: 5px;
+    text-decoration: none;
   }
   
   .sidebar-item:hover {
     transform: scale(1.05);
   }
-  .sidebar-item-upload:hover {
+  .sidebar-item-settings:hover {
     transform: scale(1.05);
   }
   
@@ -75,7 +76,7 @@ body, html {
     font-size: 20px; /* Adjust the size as needed */
     color: black;
     margin-right: 5px;
-    margin-left: 5px;
+    margin-left: 10px;
   }
   
   .sidebar-item-text {
