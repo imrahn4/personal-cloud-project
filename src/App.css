@@ -1,38 +1,89 @@
-.App {
-  text-align: center;
+/* App.css */
+@font-face {
+    font-family: 'Inter';
+    src: url('./assets/Inter.woff') format('woff2');
+    font-weight: normal;
+    font-style: normal;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body, html {
+    margin: 0;
+    padding: 0;
+}
+  
+.app-container {
+    display: flex;
+    height: 100vh;
+}
+  
+.main-content {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: #EBF2FC;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.sidebar {
+    width: 200px;
+    min-height: 100vh;
+    padding-top: 180px;
+    background-color: #1e5de1;
+    overflow-y: auto;
+    color: azure;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.sidebar-item {
+    width: 90%;
+    height: 40px;
+    align-self: center;
+    display: flex;
+    margin-bottom: 10px;
+    cursor: pointer;
+    border-radius: 8px;
+    background-color: #EBF2FC;
+    align-items: center;
+    transition: transform 0.2s;
+    /* Removed flex-direction: row; */
   }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+  
+  .sidebar-item-upload {
+    width: 90%;
+    height: 40px;
+    align-self: center;
+    display: flex;
+    margin-bottom: 10px;
+    cursor: pointer;
+    border-radius: 8px;
+    background-color: #EBF2FC;
+    align-items: center;
+    transition: transform 0.2s;
+    position: absolute;
+    bottom: 5px;
   }
-  to {
-    transform: rotate(360deg);
+  
+  .sidebar-item:hover {
+    transform: scale(1.05);
   }
-}
+  .sidebar-item-upload:hover {
+    transform: scale(1.05);
+  }
+  
+  .sidebar-item-icon {
+    font-size: 20px; /* Adjust the size as needed */
+    color: black;
+    margin-right: 5px;
+    margin-left: 5px;
+  }
+  
+  .sidebar-item-text {
+    font-family: 'Inter';
+    font-size: 14px;
+    color: black;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+  }
+  
