@@ -1,9 +1,8 @@
 
 .cloud-page-pictures-container {
     flex-grow: 1;
-    width: 70vw;
+    width: 69.5vw;
     height: 79vh;
     background-color: #f5f9fd;
     border-radius: 20px;
-    margin-right: 10px;
 }
