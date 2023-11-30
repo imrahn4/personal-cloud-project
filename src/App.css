@@ -13,7 +13,7 @@ body, html {
   
 .app-container {
     display: flex;
-    height: 100vh;
+    overflow-y: hidden;
 }
   
 .main-content {
@@ -28,11 +28,12 @@ body, html {
     padding-top: 180px;
     background-color: #1e5de1;
     overflow-y: auto;
-    color: azure;
+    color: EBF2FC;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
     position: relative;
+    overflow-x: hidden; /* Hide horizontal overflow */
 }
 
 .sidebar-item {
@@ -65,26 +66,30 @@ body, html {
     text-decoration: none;
   }
   
-  .sidebar-item:hover {
+.sidebar-item:hover {
     transform: scale(1.05);
-  }
-  .sidebar-item-settings:hover {
+}
+.sidebar-item-settings:hover {
     transform: scale(1.05);
-  }
+}
   
-  .sidebar-item-icon {
+.sidebar-item-icon {
     font-size: 20px; /* Adjust the size as needed */
     color: black;
     margin-right: 5px;
     margin-left: 10px;
-  }
+}
   
-  .sidebar-item-text {
+.sidebar-item-text {
     font-family: 'Inter';
     font-size: 14px;
     color: black;
     font-weight: bold;
     display: flex;
     align-items: center;
-  }
+}
+
+.active {
+    background-color: rgb(204, 214, 225);
+}
   

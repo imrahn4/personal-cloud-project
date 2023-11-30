@@ -1,0 +1,19 @@
+@font-face {
+    font-family: 'Inter';
+    src: url('./assets/Inter.woff') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.recent-item-item-container {
+    background-color: #f5f9fd;
+    border-radius: 20px;
+    margin-bottom: 7px;
+    height: 73px;
+    width: 98%;
+    transition: transform 0.2s;
+}
+
+.recent-item-item-container:hover {
+    transform: scale(1.05);
+}

@@ -1,0 +1,167 @@
+@font-face {
+    font-family: 'Inter';
+    src: url('./assets/Inter.woff') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.cloud-page-container {
+    display: flex;
+    bottom: 10px;
+    height: 70vh;
+}
+  
+.cloud-page-container-left {
+    margin-right: 4px;
+    height: 50vh;
+  }
+  
+.cloud-page-container-right {
+    flex-grow: 1;
+    height: 100px;
+    height: 79vh;
+    background-color: #f5f9fd;
+    border-radius: 20px;
+}
+  
+.recents-container {
+    height: 100%;
+}
+  
+  /* Rest of your styles... */
+  
+
+.search-container {
+    background-color: #f5f9fd;
+    display: flex;
+    align-items: center;
+    width: 95%;
+    height: 6vh;
+    margin: auto;
+    margin-top: 30px;
+    border-radius: 20px;
+    font-size: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.01);
+  }
+
+.search-input {
+    border: none;
+    outline: none;
+    background-color: transparent;
+    padding: 10px;
+    font-size: 21px;
+    font-family: 'Inter';
+    width: 100%;
+    height: 100%;
+    margin-right: 5px;
+}  
+
+.search-input::placeholder{
+    color: #90B7ED;
+}
+
+.search-icon {
+    margin-left: 8px;
+    color: #90B7ED;
+    opacity: 0.8;
+}
+
+.main-container {
+    
+}
+
+.category-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-bottom: 15%px;
+}
+
+.category-item-container {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    cursor: pointer;
+    border-radius: 8px;
+    margin-top: 20px;
+    margin-right: 25px;
+    transition: transform 0.2s;
+}
+
+.category-item-circle {
+    position: absolute;
+    top: 42%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f5f9fd;
+    height: 85px;
+    width: 85px;
+    border-radius: 50%;
+}
+
+.category-item-text {
+    font-family: 'Inter';
+    color: #f5f9fd;
+    top: 135%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    font-size: 25px;
+}
+
+
+
+.category-item-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%;
+    height: 70%;
+}
+
+
+.category-item-container:hover {
+    transform: scale(1.05);
+}
+
+.search-header {
+    font-family: 'Inter';
+    color: #06367A;
+    font-size: 30px;
+    margin-left: 5px;
+}
+
+.header {
+    font-family: 'Inter';
+    color: #06367A;
+    font-size: 30px;
+}
+
+.header {
+    font-family: 'Inter';
+    color: #06367A;
+    font-size: 30px;
+}
+
+.frame {
+    width: 500px;
+    height: 500px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+  }
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px; /* Adjust the gap between items */
+    padding: 10px; /* Adjust padding as needed */
+}
+
+.grid-item {
+    width: 100%;
+    height: 100px; /* Set the height of each item */
+    background-color: #ddd;
+    border: 1px solid #999;
+    box-sizing: border-box;
+}
