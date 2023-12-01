@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import './MyCloud.css'
 import './MyCloudPictures.css'
 
 import RecentItem from "./RecentItem";
+import ItemFrame from "./ItemFrame"
 
 import { FiSearch } from 'react-icons/fi';
 import { FaCamera, FaVideo } from "react-icons/fa";
@@ -11,6 +12,8 @@ import { BsSoundwave } from "react-icons/bs";
 import { MdDashboard } from "react-icons/md";
 
 const MyCloudPage = () => {
+
+  {/**
   const recentItems = [
     { title: 'Item 1', date: '2023-01-01', description: 'Description' },
     { title: 'Item 2', date: '2023-02-01', description: 'Description' },
@@ -20,6 +23,8 @@ const MyCloudPage = () => {
     { title: 'Item 6', date: '2023-03-01', description: 'Description' },
     // Add more items as needed
   ];
+   */}
+  const [recentItems, setRecentItems] = useState([]);
 
   // Added state to track the selected category
   const [selectedCategory, setSelectedCategory] = useState("home");
@@ -28,6 +33,16 @@ const MyCloudPage = () => {
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
   };
+
+  useEffect(() => {
+    if (selectedCategory === 'pictures') {
+      fetch('http://localhost:5000/api/images-list')  // Corrected fetch URL
+        .then(response => response.json())
+        .then(data => setRecentItems(data))
+        .catch(error => console.error('Error fetching images:', error));
+    }
+  }, [selectedCategory]);
+  
 
   return (
     <div>
@@ -100,10 +115,14 @@ const MyCloudPage = () => {
 
           {selectedCategory === 'pictures' && (
             <div className="cloud-page-pictures-container">
-              {/* Content for the Pictures category */}
-              pics
+              <div className="cloud-page-pictures-grid">
+                {recentItems.slice().reverse().map((item, index) => (
+                  <ItemFrame key={index} title={item.title} date={item.date} image_source={item.image_source} />
+                ))}
+              </div>
             </div>
           )}
+
 
           {selectedCategory === 'videos' && (
             <div className="cloud-page-pictures-container">

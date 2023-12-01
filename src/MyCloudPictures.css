@@ -1,8 +1,12 @@
-
 .cloud-page-pictures-container {
-    flex-grow: 1;
-    width: 69.5vw;
-    height: 79vh;
-    background-color: #f5f9fd;
-    border-radius: 20px;
+
 }
+
+.cloud-page-pictures-grid {
+  display: flex;
+  flex-wrap: wrap;
+  height: 800px; /* Set a fixed height */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+
