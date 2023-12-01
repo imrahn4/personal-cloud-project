@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import './MyCloud.css'
 import './MyCloudPictures.css'
 
-import RecentItem from "./RecentItem";
 import ItemFrame from "./ItemFrame"
+
 
 import { FiSearch } from 'react-icons/fi';
 import { FaCamera, FaVideo } from "react-icons/fa";
@@ -12,10 +12,8 @@ import { BsSoundwave } from "react-icons/bs";
 import { MdDashboard } from "react-icons/md";
 
 const MyCloudPage = () => {
-
-  {/**
   const recentItems = [
-    { title: 'Item 1', date: '2023-01-01', description: 'Description' },
+    
     { title: 'Item 2', date: '2023-02-01', description: 'Description' },
     { title: 'Item 3', date: '2023-03-01', description: 'Description' },
     { title: 'Item 4', date: '2023-01-01', description: 'Description' },
@@ -23,26 +21,26 @@ const MyCloudPage = () => {
     { title: 'Item 6', date: '2023-03-01', description: 'Description' },
     // Add more items as needed
   ];
-   */}
-  const [recentItems, setRecentItems] = useState([]);
+  
 
-  // Added state to track the selected category
+  const [pictures, setPictures] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("home");
 
-  // Added function to handle category clicks
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
   };
 
   useEffect(() => {
     if (selectedCategory === 'pictures') {
-      fetch('http://localhost:5000/api/images-list')  // Corrected fetch URL
+      fetch('http://localhost:5000/api/pictures-list')
         .then(response => response.json())
-        .then(data => setRecentItems(data))
+        .then(data => {
+          setPictures(data);
+          console.log(data); // Log the data to check the image URLs
+        })
         .catch(error => console.error('Error fetching images:', error));
     }
   }, [selectedCategory]);
-  
 
   return (
     <div>
@@ -105,54 +103,53 @@ const MyCloudPage = () => {
               <h1 className="header">Recents</h1>
 
               <div className="recents-container">
+                {/* 
                 {recentItems.map((item, index) => (
                   <RecentItem key={index} {...item} />
                 ))}
+                */}
               </div>
-
             </div>
           )}
 
           {selectedCategory === 'pictures' && (
             <div className="cloud-page-pictures-container">
               <div className="cloud-page-pictures-grid">
-                {recentItems.slice().reverse().map((item, index) => (
-                  <ItemFrame key={index} title={item.title} date={item.date} image_source={item.image_source} />
+                {pictures.slice().reverse().map((item, index) => (
+                  <ItemFrame key={index} title={item.title} date={item.date} image_source={item.file_source} />
                 ))}
               </div>
             </div>
           )}
 
-
           {selectedCategory === 'videos' && (
-            <div className="cloud-page-pictures-container">
+            <div className="cloud-page-videos-container">
               {/* Content for the Videos category */}
               vids
             </div>
           )}
 
           {selectedCategory === 'documents' && (
-            <div className="cloud-page-pictures-container">
+            <div className="cloud-page-documents-container">
               {/* Content for the Documents category */}
               docs
             </div>
           )}
 
           {selectedCategory === 'audio' && (
-            <div className="cloud-page-pictures-container">
+            <div className="cloud-page-audio-container">
               {/* Content for the Audio category */}
               auds
             </div>
           )}
 
           {selectedCategory === 'all' && (
-            <div className="cloud-page-pictures-container">
+            <div className="cloud-page-all-container">
               {/* Content for the All category */}
               all
             </div>
           )}
         </div>
-
 
         <div className="cloud-page-container-right">
           {/* Right container content goes here */}
