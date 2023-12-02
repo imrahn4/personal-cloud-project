@@ -6,7 +6,7 @@
   display: flex;
   flex-wrap: wrap;
   height: 800px; /* Set a fixed height */
-  overflow-y: auto; /* Enable vertical scrolling */
+  overflow-y: auto;
 }
 
 

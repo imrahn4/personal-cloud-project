@@ -1,0 +1,17 @@
+.nxt {
+
+}
+
+.prv {
+
+}
+
+.img-container {
+  display: flex;
+  width: 800px;
+  height: 800px;
+  background-color: rgb(212, 212, 212);
+  margin: auto; /* Horizontal centering */
+  align-self: center; /* Vertical centering */
+  justify-self: center; /* Horizontal centering */
+}

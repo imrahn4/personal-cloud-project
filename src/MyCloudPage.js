@@ -4,7 +4,6 @@ import './MyCloudPictures.css'
 
 import ItemFrame from "./ItemFrame"
 
-
 import { FiSearch } from 'react-icons/fi';
 import { FaCamera, FaVideo } from "react-icons/fa";
 import { HiDocumentText } from "react-icons/hi2";
@@ -52,7 +51,12 @@ const MyCloudPage = () => {
 
       {/* Main content*/}
       <h1 style={{ marginLeft: '2.5%' }} className="search-header" ></h1>
-      <h1 style={{ marginLeft: '2.5%' }} className="header">Categories</h1>
+
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <h1 style={{ marginLeft: '2.5%' }} className="header">Page 1</h1>
+        <button style={{ marginLeft: '10px' }}>Button 1</button>
+        <button style={{ marginLeft: '10px' }}>Button 2</button>
+      </div>
 
       <div style={{ marginLeft: '2.5%' }} className="cloud-page-container">
         <div className="cloud-page-container-left">
@@ -111,6 +115,8 @@ const MyCloudPage = () => {
               </div>
             </div>
           )}
+          
+          
 
           {selectedCategory === 'pictures' && (
             <div className="cloud-page-pictures-container">
