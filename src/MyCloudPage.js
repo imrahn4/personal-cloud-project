@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
-import './MyCloud.css'
-import './MyCloudPictures.css'
-
-import ItemFrame from "./ItemFrame"
-
+import './MyCloud.css';
+import './MyCloudPictures.css';
+import ItemFrame from "./ItemFrame";
 import { FiSearch } from 'react-icons/fi';
 import { FaCamera, FaVideo } from "react-icons/fa";
 import { HiDocumentText } from "react-icons/hi2";
@@ -23,33 +21,24 @@ const MyCloudPage = () => {
 
 
   const [selectedCategory, setSelectedCategory] = useState("home");
-
-  const handleCategoryClick = (category) => {
-    setSelectedCategory(category);
-  };
-
   const itemsPerPage = 15;
   const [curPage, setCurPage] = useState(1);
   const [images, setImages] = useState([]);
+  const [videos, setVideos] = useState([]);
   const [maxPages, setMaxPages] = useState(1);
   const [selectedTags, setSelectedTags] = useState([]);
   const [tags, setTags] = useState([]);
 
-  // Fetch tags from the server
+  const handleCategoryClick = (category) => {
+    setSelectedCategory(category);
+  };
   useEffect(() => {
     fetch('http://localhost:5000/api/tags')
       .then(response => response.json())
-      .then(data => {
-        if (Array.isArray(data)) {
-          setTags(data);
-        } else {
-          console.error('Invalid data format for tags:', data);
-        }
-      })
+      .then(data => Array.isArray(data) ? setTags(data) : console.error('Invalid data format for tags:', data))
       .catch(error => console.error('Error fetching tags:', error));
   }, []);
 
-  // Fetch images from the server based on selected tags
   useEffect(() => {
     const tagsQueryParam = selectedTags.length > 0 ? `?tags=${JSON.stringify(selectedTags)}` : '';
 
@@ -57,28 +46,40 @@ const MyCloudPage = () => {
       .then((response) => response.json())
       .then((data) => {
         setImages(data);
-        setMaxPages(Math.ceil(data.length / itemsPerPage));
+        setMaxPages(Math.ceil(data.length / 15));
       })
       .catch((error) => console.error('Error fetching images:', error));
   }, [selectedTags, curPage]);
+
+  useEffect(() => {
+    if (selectedCategory === 'videos') {
+      fetch('http://localhost:5000/api/videos-list')
+        .then(response => response.json())
+        .then(data => {
+          setVideos(data);
+          setMaxPages(Math.ceil(data.length / itemsPerPage));
+        })
+        .catch(error => console.error('Error fetching videos:', error));
+    }
+  }, [selectedCategory, curPage]);
+
 
   // Calculate the range of items to display based on the current page
   const startIndex = (curPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const displayedImages = Array.isArray(images) ? images.slice(startIndex, endIndex) : [];
+  const displayedVideos = Array.isArray(videos) ? videos.slice(startIndex, endIndex) : [];
 
-  // ...
 
   const handlePageClick = (dir) => {
     if (dir === "back") {
       setSelectedCategory("home");
+      setCurPage(1)
+      setSelectedTags("")
     } else if ((dir === "next" && curPage < maxPages) || (dir === "prv" && curPage > 1)) {
       setCurPage(prevPage => (dir === "next" ? prevPage + 1 : prevPage - 1));
     }
   };
-
-  // ...
-
 
   const handleTagClick = (tag) => {
     setCurPage(1)
@@ -91,22 +92,19 @@ const MyCloudPage = () => {
 
   return (
     <div>
-      {/* Search bar */}
-      {selectedCategory === 'pictures' && (
+      {selectedCategory !== 'home' && selectedCategory !== 'tags' && selectedCategory !== 'upload' && (
         <div className="search-container">
           <FiSearch className="search-icon" size={18} />
           <input type="text" placeholder="Search..." className="search-input" />
         </div>
       )}
 
-      {/* Main content*/}
-      <h1 style={{ marginLeft: '2.5%' }} className="search-header" ></h1>
+      <h1 style={{ marginLeft: '2.5%' }} className="search-header"></h1>
 
       <div style={{ display: 'flex', alignItems: 'center' }}>
         {selectedCategory !== 'home' && (
           <>
             <button className="back" onClick={() => handlePageClick("back")}>Back to Home</button>
-
             <h1 style={{ marginLeft: '2.5%' }} className="header">
               {`Page: ${curPage} of ${maxPages}`}
             </h1>
@@ -121,13 +119,11 @@ const MyCloudPage = () => {
         )}
       </div>
 
-
       <div style={{ marginLeft: '2.5%' }} className="cloud-page-container">
         <div className="cloud-page-container-left">
           {selectedCategory === 'home' && (
             <div className="cloud-page-home">
               <div className="category-container">
-                {/* Pictures */}
                 <div className="category-item-container" style={{ backgroundColor: '#6663FE' }} onClick={() => handleCategoryClick('pictures')}>
                   <div className="category-item-circle">
                     <FaCamera className="category-item-icon" style={{ color: '#6663FE' }} />
@@ -135,7 +131,6 @@ const MyCloudPage = () => {
                   </div>
                 </div>
 
-                {/* Videos */}
                 <div className="category-item-container" style={{ backgroundColor: '#00A0B6' }} onClick={() => handleCategoryClick('videos')}>
                   <div className="category-item-circle">
                     <FaVideo className="category-item-icon" style={{ color: '#00A0B6' }} />
@@ -143,7 +138,6 @@ const MyCloudPage = () => {
                   </div>
                 </div>
 
-                {/* Documents */}
                 <div className="category-item-container" style={{ backgroundColor: '#E06C9F' }} onClick={() => handleCategoryClick('documents')}>
                   <div className="category-item-circle">
                     <HiDocumentText className="category-item-icon" style={{ color: '#E06C9F' }} />
@@ -151,29 +145,21 @@ const MyCloudPage = () => {
                   </div>
                 </div>
 
-                {/* Audio */}
                 <div className="category-item-container" style={{ backgroundColor: '#266FD5' }} onClick={() => handleCategoryClick('audio')}>
                   <div className="category-item-circle">
                     <BsSoundwave className="category-item-icon" style={{ color: '#266FD5' }} />
                     <div className="category-item-text"> Audio </div>
                   </div>
                 </div>
-
               </div>
 
               <h1 className="header">Recents</h1>
 
               <div className="recents-container">
-                {/* 
-                {recentItems.map((item, index) => (
-                  <RecentItem key={index} {...item} />
-                ))}
-                */}
+                {/* Recent Items */}
               </div>
             </div>
           )}
-
-
 
           {selectedCategory === 'pictures' && (
             <div className="cloud-page-pictures-container">
@@ -186,26 +172,29 @@ const MyCloudPage = () => {
           )}
 
           {selectedCategory === 'videos' && (
-            <div className="cloud-page-videos-container">
-              {/* Content for the Videos category */}
-              vids
+            <div className="cloud-page-pictures-container">
+              <div className="cloud-page-pictures-grid">
+                {displayedVideos.map((video, index) => (
+                  <ItemFrame key={index} title={video.title} date={video.date} video_source={video.file_source} />
+                ))}
+              </div>
             </div>
           )}
+
 
           {selectedCategory === 'documents' && (
             <div className="cloud-page-documents-container">
               {/* Content for the Documents category */}
-              docs
+              {/* Placeholder */}
             </div>
           )}
 
           {selectedCategory === 'audio' && (
             <div className="cloud-page-audio-container">
               {/* Content for the Audio category */}
-              auds
+              {/* Placeholder */}
             </div>
           )}
-
         </div>
 
         {selectedCategory === 'pictures' && (
@@ -226,9 +215,6 @@ const MyCloudPage = () => {
             </div>
           </div>
         )}
-
-
-
       </div>
     </div>
   );
