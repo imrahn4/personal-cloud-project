@@ -6,24 +6,12 @@
 }
 
 .item-main-frame {
-    flex: 1 0 calc(19% - 20px); /* 20px is the margin between items */
-    width: 150px; /* Set a minimum width for each item */
-    height: 240px;
+    width: calc(20% - 10px); /* 20% width with a 10px margin between items */
+    height: 240px; /* Set the height of each item */
+    margin: 5px; /* Adjust margin as needed */
     background-color: #f5f9fd;
     border-radius: 20px;
-    margin: 10px; /* Fixed margin in pixels */
-    cursor: pointer;
-    transition: transform 0.2s;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-top: .4%;
-    flex-direction: column;
-    overflow: hidden;
-    overflow-x: hidden; /* Hide horizontal overflow */
-    box-sizing: border-box;
   }
-  
 
 
 .item-image-preview-container {

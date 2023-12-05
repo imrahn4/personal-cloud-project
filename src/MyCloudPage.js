@@ -12,7 +12,7 @@ import { MdDashboard } from "react-icons/md";
 
 const MyCloudPage = () => {
   const recentItems = [
-    
+
     { title: 'Item 2', date: '2023-02-01', description: 'Description' },
     { title: 'Item 3', date: '2023-03-01', description: 'Description' },
     { title: 'Item 4', date: '2023-01-01', description: 'Description' },
@@ -20,43 +20,107 @@ const MyCloudPage = () => {
     { title: 'Item 6', date: '2023-03-01', description: 'Description' },
     // Add more items as needed
   ];
-  
 
-  const [pictures, setPictures] = useState([]);
+
   const [selectedCategory, setSelectedCategory] = useState("home");
 
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
   };
 
+  const itemsPerPage = 15;
+  const [curPage, setCurPage] = useState(1);
+  const [images, setImages] = useState([]);
+  const [maxPages, setMaxPages] = useState(1);
+  const [selectedTags, setSelectedTags] = useState([]);
+  const [tags, setTags] = useState([]);
+
+  // Fetch tags from the server
   useEffect(() => {
-    if (selectedCategory === 'pictures') {
-      fetch('http://localhost:5000/api/pictures-list')
-        .then(response => response.json())
-        .then(data => {
-          setPictures(data);
-          console.log(data); // Log the data to check the image URLs
-        })
-        .catch(error => console.error('Error fetching images:', error));
+    fetch('http://localhost:5000/api/tags')
+      .then(response => response.json())
+      .then(data => {
+        if (Array.isArray(data)) {
+          setTags(data);
+        } else {
+          console.error('Invalid data format for tags:', data);
+        }
+      })
+      .catch(error => console.error('Error fetching tags:', error));
+  }, []);
+
+  // Fetch images from the server based on selected tags
+  useEffect(() => {
+    const tagsQueryParam = selectedTags.length > 0 ? `?tags=${JSON.stringify(selectedTags)}` : '';
+
+    fetch(`http://localhost:5000/api/pictures-list${tagsQueryParam}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setImages(data);
+        setMaxPages(Math.ceil(data.length / itemsPerPage));
+      })
+      .catch((error) => console.error('Error fetching images:', error));
+  }, [selectedTags, curPage]);
+
+  // Calculate the range of items to display based on the current page
+  const startIndex = (curPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const displayedImages = Array.isArray(images) ? images.slice(startIndex, endIndex) : [];
+
+  // ...
+
+  const handlePageClick = (dir) => {
+    if (dir === "back") {
+      setSelectedCategory("home");
+    } else if ((dir === "next" && curPage < maxPages) || (dir === "prv" && curPage > 1)) {
+      setCurPage(prevPage => (dir === "next" ? prevPage + 1 : prevPage - 1));
     }
-  }, [selectedCategory]);
+  };
+
+  // ...
+
+
+  const handleTagClick = (tag) => {
+    setCurPage(1)
+    setSelectedTags((prevTags) =>
+      prevTags.includes(tag)
+        ? prevTags.filter((t) => t !== tag)
+        : [...prevTags, tag]
+    );
+  };
 
   return (
     <div>
       {/* Search bar */}
-      <div className="search-container">
-        <FiSearch className="search-icon" size={18} />
-        <input type="text" placeholder="Search..." className="search-input" />
-      </div>
+      {selectedCategory === 'pictures' && (
+        <div className="search-container">
+          <FiSearch className="search-icon" size={18} />
+          <input type="text" placeholder="Search..." className="search-input" />
+        </div>
+      )}
 
       {/* Main content*/}
       <h1 style={{ marginLeft: '2.5%' }} className="search-header" ></h1>
 
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        <h1 style={{ marginLeft: '2.5%' }} className="header">Page 1</h1>
-        <button style={{ marginLeft: '10px' }}>Button 1</button>
-        <button style={{ marginLeft: '10px' }}>Button 2</button>
+        {selectedCategory !== 'home' && (
+          <>
+            <button className="back" onClick={() => handlePageClick("back")}>Back to Home</button>
+
+            <h1 style={{ marginLeft: '2.5%' }} className="header">
+              {`Page: ${curPage} of ${maxPages}`}
+            </h1>
+            <button className="prv" onClick={() => handlePageClick("prv")}>Previous page</button>
+            <button className="next" onClick={() => handlePageClick("next")} disabled={curPage === maxPages}>Next page</button>
+          </>
+        )}
+        {selectedCategory === 'home' && (
+          <h1 style={{ marginLeft: '2.5%' }} className="header">
+            Categories
+          </h1>
+        )}
       </div>
+
 
       <div style={{ marginLeft: '2.5%' }} className="cloud-page-container">
         <div className="cloud-page-container-left">
@@ -95,13 +159,6 @@ const MyCloudPage = () => {
                   </div>
                 </div>
 
-                {/* All */}
-                <div className="category-item-container" style={{ backgroundColor: '#D2B301' }} onClick={() => handleCategoryClick('all')}>
-                  <div className="category-item-circle">
-                    <MdDashboard className="category-item-icon" style={{ color: '#D2B301' }} />
-                    <div className="category-item-text"> All </div>
-                  </div>
-                </div>
               </div>
 
               <h1 className="header">Recents</h1>
@@ -115,14 +172,14 @@ const MyCloudPage = () => {
               </div>
             </div>
           )}
-          
-          
+
+
 
           {selectedCategory === 'pictures' && (
             <div className="cloud-page-pictures-container">
               <div className="cloud-page-pictures-grid">
-                {pictures.slice().reverse().map((item, index) => (
-                  <ItemFrame key={index} title={item.title} date={item.date} image_source={item.file_source} />
+                {displayedImages.map((image, index) => (
+                  <ItemFrame key={index} title={image.title} date={image.date} image_source={image.file_source} />
                 ))}
               </div>
             </div>
@@ -149,17 +206,29 @@ const MyCloudPage = () => {
             </div>
           )}
 
-          {selectedCategory === 'all' && (
-            <div className="cloud-page-all-container">
-              {/* Content for the All category */}
-              all
-            </div>
-          )}
         </div>
 
-        <div className="cloud-page-container-right">
-          {/* Right container content goes here */}
-        </div>
+        {selectedCategory === 'pictures' && (
+          <div className="cloud-page-container-right">
+            <div className="tag-container">
+              <h1>Tags</h1>
+              {tags.map(tag => (
+                <label key={tag}>
+                  <input
+                    type="checkbox"
+                    value={tag}
+                    checked={selectedTags.includes(tag)}
+                    onChange={() => handleTagClick(tag)}
+                  />
+                  {tag}
+                </label>
+              ))}
+            </div>
+          </div>
+        )}
+
+
+
       </div>
     </div>
   );
