@@ -11,13 +11,21 @@
     margin: 5px; /* Adjust margin as needed */
     background-color: #f5f9fd;
     border-radius: 20px;
+    
   }
-
 
 .item-image-preview-container {
     width: 95%;
     height: 80%;
-    /*background-color: #dfe2e6*/
+    border-radius: 20px;
+    margin: .5%;
+    overflow: hidden;
+    object-fit: cover;
+}
+
+.item-media-container {
+    width: 95%;
+    height: 80%;
     border-radius: 20px;
     margin: .5%;
     overflow: hidden;
@@ -35,6 +43,7 @@
     font-family: 'Inter';
     font-size: smaller;
     padding-bottom: 2px;
+    text-align: center;
 }
 
 

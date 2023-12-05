@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import './MyCloud.css';
 import './MyCloudPictures.css';
 import ItemFrame from "./ItemFrame";
-import { FiSearch } from 'react-icons/fi';
 import { FaCamera, FaVideo } from "react-icons/fa";
 import { HiDocumentText } from "react-icons/hi2";
 import { BsSoundwave } from "react-icons/bs";
@@ -46,7 +45,7 @@ const MyCloudPage = () => {
       .then((response) => response.json())
       .then((data) => {
         setImages(data);
-        setMaxPages(Math.ceil(data.length / 15));
+        setMaxPages(Math.ceil(data.length / itemsPerPage));
       })
       .catch((error) => console.error('Error fetching images:', error));
   }, [selectedTags, curPage]);
@@ -60,7 +59,7 @@ const MyCloudPage = () => {
           setMaxPages(Math.ceil(data.length / itemsPerPage));
         })
         .catch(error => console.error('Error fetching videos:', error));
-    }
+    }    
   }, [selectedCategory, curPage]);
 
 
@@ -92,12 +91,6 @@ const MyCloudPage = () => {
 
   return (
     <div>
-      {selectedCategory !== 'home' && selectedCategory !== 'tags' && selectedCategory !== 'upload' && (
-        <div className="search-container">
-          <FiSearch className="search-icon" size={18} />
-          <input type="text" placeholder="Search..." className="search-input" />
-        </div>
-      )}
 
       <h1 style={{ marginLeft: '2.5%' }} className="search-header"></h1>
 
